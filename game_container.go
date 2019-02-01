@@ -1,9 +1,8 @@
 package main
 
-import(
+import (
 	"sync"
 )
-
 
 type GamesContainer struct {
 	sync.RWMutex

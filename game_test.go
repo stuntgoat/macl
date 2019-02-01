@@ -1,7 +1,6 @@
 package main
 
 import (
-
 	"fmt"
 	"testing"
 )
@@ -11,16 +10,15 @@ func mkDraw(g *game, playerA, playerB string) {
 	for i := 0; i < 2; i++ {
 		for j := 0; j < 4; j++ {
 			if j < 2 {
-				g.Move(playerA, 0 + j)
-				g.Move(playerB, 2 + j)
+				g.Move(playerA, 0+j)
+				g.Move(playerB, 2+j)
 			} else {
 				g.Move(playerA, j)
-				g.Move(playerB, j - 2)
+				g.Move(playerB, j-2)
 			}
 		}
 	}
 }
-
 
 func Test_CreateGame(t *testing.T) {
 	g := CreateGame(4, 4, 4, "a", "b")
@@ -114,7 +112,6 @@ func Test_boardIsFull(t *testing.T) {
 		t.Error("expected MoveBadRequest got", status)
 	}
 }
-
 
 func Test_Move(t *testing.T) {
 	g := CreateGame(4, 4, 4, "a", "b")
@@ -253,7 +250,6 @@ func Test_GetMoves(t *testing.T) {
 	if moves[2].col != 3 {
 		t.Error("expected column 3 got", moves[2].col)
 	}
-
 
 	moves = g.GetMoves(1, 2)
 	if len(moves) != 2 {

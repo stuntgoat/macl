@@ -1,10 +1,7 @@
 package main
 
-import (
-	// "fmt"
-)
-
 type Direction string
+
 var Up = Direction("Up")
 var Down = Direction("Down")
 
@@ -18,28 +15,29 @@ var UpRight = Direction("UpRight")
 var DownLeft = Direction("DownLeft")
 
 type Line string
+
 var UpDown = Line("UpDown")
 var LeftRight = Line("LeftRight")
 var DiagonalLR_UD = Line("Diagonal_Left_Right_Up_Down")
 var DiagonalLR_DU = Line("Diagonal_Left_Right_Down_Up")
 
-var LINE_FOR_DIRECTION = map[Direction]Line {
-	Up: UpDown,
+var LINE_FOR_DIRECTION = map[Direction]Line{
+	Up:   UpDown,
 	Down: UpDown,
 
-	Left: LeftRight,
+	Left:  LeftRight,
 	Right: LeftRight,
 
-	UpLeft: DiagonalLR_UD,
+	UpLeft:    DiagonalLR_UD,
 	DownRight: DiagonalLR_UD,
 
-	UpRight: DiagonalLR_DU,
+	UpRight:  DiagonalLR_DU,
 	DownLeft: DiagonalLR_DU,
 }
 
 type LineKey struct {
-	Row int
-	Col int
+	Row  int
+	Col  int
 	Line Line
 }
 
@@ -48,8 +46,8 @@ type CoinKey struct {
 	Col int
 }
 type DirectionKey struct {
-	Row int
-	Col int
+	Row       int
+	Col       int
 	Direction Direction
 }
 
@@ -64,7 +62,6 @@ func (pg *PlayerGraph) Add(row, col int) {
 func (pg *PlayerGraph) Get(row, col int) bool {
 	return pg.coins[CoinKey{row, col}]
 }
-
 
 func mkNextDirectionKey(row, col int, direction Direction) DirectionKey {
 	var nextRow int
@@ -108,7 +105,7 @@ func dfs(key DirectionKey, lkey LineKey, graph *PlayerGraph, count int, seen map
 	nextDirectionKey := mkNextDirectionKey(key.Row, key.Col, key.Direction)
 	if ok := graph.Get(nextDirectionKey.Row, nextDirectionKey.Col); ok {
 		nextLineKey := LineKey{nextDirectionKey.Row, nextDirectionKey.Col, lkey.Line}
-		count = dfs(nextDirectionKey, nextLineKey, graph, count + 1, seen)
+		count = dfs(nextDirectionKey, nextLineKey, graph, count+1, seen)
 	}
 	return count
 }
@@ -137,7 +134,7 @@ func (pg *PlayerGraph) FindConsecutive(row, col, num int) bool {
 		dKeyA = DirectionKey{row, col, Up}
 		dKeyB = DirectionKey{row, col, Down}
 		result = searchDirections(dKeyA, dKeyB, lkey, pg, seen)
-		if result + 1 >= num {
+		if result+1 >= num {
 			return true
 		}
 	}
@@ -147,7 +144,7 @@ func (pg *PlayerGraph) FindConsecutive(row, col, num int) bool {
 		dKeyA = DirectionKey{row, col, Left}
 		dKeyB = DirectionKey{row, col, Right}
 		result = searchDirections(dKeyA, dKeyB, lkey, pg, seen)
-		if result + 1 >= num {
+		if result+1 >= num {
 			return true
 		}
 	}
@@ -157,7 +154,7 @@ func (pg *PlayerGraph) FindConsecutive(row, col, num int) bool {
 		dKeyA = DirectionKey{row, col, UpLeft}
 		dKeyB = DirectionKey{row, col, DownRight}
 		result = searchDirections(dKeyA, dKeyB, lkey, pg, seen)
-		if result + 1 >= num {
+		if result+1 >= num {
 			return true
 		}
 	}
@@ -167,7 +164,7 @@ func (pg *PlayerGraph) FindConsecutive(row, col, num int) bool {
 		dKeyA = DirectionKey{row, col, UpRight}
 		dKeyB = DirectionKey{row, col, DownLeft}
 		result = searchDirections(dKeyA, dKeyB, lkey, pg, seen)
-		if result + 1 >= num {
+		if result+1 >= num {
 			return true
 		}
 

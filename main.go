@@ -1,26 +1,25 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
-	"flag"
 	"os"
-	// "sync"
 
 	"net/http"
 )
 
 var (
-	GAMES *GamesContainer
-	LOGGER *log.Logger
-	API_PREFIX     = flag.String("api_prefix", "game", "api URL prefix")
-	NUM_PLAYERS    = flag.Int("num_players", 2, "required number of players")
-	BOARD_WIDTH      =  flag.Int("board_width", 4, "board width")
-	BOARD_LENGTH      =  flag.Int("board_length", 4, "board length")
+	GAMES              *GamesContainer
+	LOGGER             *log.Logger
+	API_PREFIX         = flag.String("api_prefix", "game", "api URL prefix")
+	NUM_PLAYERS        = flag.Int("num_players", 2, "required number of players")
+	BOARD_WIDTH        = flag.Int("board_width", 4, "board width")
+	BOARD_LENGTH       = flag.Int("board_length", 4, "board length")
 	CONSECUTIVE_LENGTH = flag.Int("consecutive_length", 4,
 		"consecutive line length required for a win")
-	LOG_PATH     = flag.String("log_path", "macl.log", "logging path")
-	PORT         = flag.Int("port", 8080, "server port")
+	LOG_PATH = flag.String("log_path", "macl.log", "logging path")
+	PORT     = flag.Int("port", 8080, "server port")
 )
 
 func init() {
@@ -41,7 +40,7 @@ func init() {
 
 func main() {
 	server := &http.Server{
-		Addr: fmt.Sprintf(":%d", *PORT),
+		Addr:    fmt.Sprintf(":%d", *PORT),
 		Handler: configureRouter(*API_PREFIX),
 	}
 

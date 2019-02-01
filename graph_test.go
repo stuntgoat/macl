@@ -13,14 +13,14 @@ func newCoinMap(coins ...CoinKey) map[CoinKey]bool {
 }
 
 func Test_FindConsecutive(t *testing.T) {
-/*
+	/*
 
-a _ _ a
-_ _ a _
-_ a a _
-a _ _ _
+	   a _ _ a
+	   _ _ a _
+	   _ a a _
+	   a _ _ _
 
-*/
+	*/
 	m := newCoinMap(
 		CoinKey{0, 0},
 		CoinKey{0, 3},
@@ -51,14 +51,14 @@ a _ _ _
 		t.Error("expecting NOT to find 5 consecutive")
 	}
 
-/*
+	/*
 
-a _ _ a
-_ _ a _
-_ _ a _
-a a a a
+	   a _ _ a
+	   _ _ a _
+	   _ _ a _
+	   a a a a
 
-*/
+	*/
 	m = newCoinMap(
 		CoinKey{0, 0},
 		CoinKey{0, 3},
@@ -93,15 +93,14 @@ a a a a
 		t.Error("expecting NOT to find 5 consecutive")
 	}
 
+	/*
 
-/*
+	   a _ _ a
+	   _ a a _
+	   _ _ a _
+	   a a _ a
 
-a _ _ a
-_ a a _
-_ _ a _
-a a _ a
-
-*/
+	*/
 	m = newCoinMap(
 		CoinKey{0, 0},
 		CoinKey{0, 3},
@@ -137,14 +136,14 @@ a a _ a
 		t.Error("expecting NOT to find 5 consecutive")
 	}
 
-/*
+	/*
 
-a _ _ a
-_ _ a a
-_ _ a a
-a _ _ a
+	   a _ _ a
+	   _ _ a a
+	   _ _ a a
+	   a _ _ a
 
-*/
+	*/
 	m = newCoinMap(
 		CoinKey{0, 0},
 		CoinKey{0, 3},

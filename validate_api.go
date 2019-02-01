@@ -11,13 +11,11 @@ import (
 	"net/http"
 )
 
-
 type MoveResponse struct {
-	Type MoveType `json:"type"`
-	Player string `json:"player"`
+	Type   MoveType `json:"type"`
+	Player string   `json:"player"`
 
 	Column int `json:"column,omitempty"`
-
 }
 type MovesRangeResponse struct {
 	Moves []MoveResponse `json:"moves"`
@@ -29,15 +27,15 @@ type MovesRangeRequest struct {
 }
 
 type GameStatusResponse struct {
-	Players []string `json:"players"`
-	Status GameStatus `json:"state"`
-	Winner string `json:"winner,omitempty"`
+	Players []string   `json:"players"`
+	Status  GameStatus `json:"state"`
+	Winner  string     `json:"winner,omitempty"`
 }
 
 type CreateGameRequest struct {
 	Players []string `json:"players"`
-	Columns int `json:"columns"`
-	Rows int `json:"rows"`
+	Columns int      `json:"columns"`
+	Rows    int      `json:"rows"`
 }
 
 type CreateGameResponse struct {
@@ -93,7 +91,7 @@ func validateMoveList(r *http.Request) (*MovesRangeRequest, error) {
 }
 
 // validateCreateGame takes an
-func validateMakeMove(r *http.Request) (*MoveRequest, *APIError)  {
+func validateMakeMove(r *http.Request) (*MoveRequest, *APIError) {
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
 	if err != nil {
@@ -109,7 +107,7 @@ func validateMakeMove(r *http.Request) (*MoveRequest, *APIError)  {
 }
 
 // validateCreateGame takes an
-func validateCreateGame(r *http.Request) (*CreateGameRequest, *APIError)  {
+func validateCreateGame(r *http.Request) (*CreateGameRequest, *APIError) {
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
 	if err != nil {

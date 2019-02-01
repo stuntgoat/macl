@@ -9,6 +9,7 @@ import (
 )
 
 type GameStatus string
+
 var STATUS_DONE = GameStatus("DONE")
 var STATUS_IN_PROGRESS = GameStatus("IN_PROGRESS")
 var STATUS_INVALID_GAME = GameStatus("INVALID_GAME")
@@ -17,19 +18,21 @@ var STATUS_QUIT_LEFT_GAME = GameStatus("QUIT_LEFT_GAME")
 var STATUS_LEFT_GAME = GameStatus("LEFT_GAME")
 
 type MoveStatus string
+
 var MoveOK = MoveStatus("OK")
 var MoveBadRequest = MoveStatus("BAD_REQUEST")
 var MoveWrongGame = MoveStatus("WRONG_GAME")
 var MoveWrongTurn = MoveStatus("WRONG_TURN")
 
 type MoveType string
+
 var MoveMove = MoveType("MOVE")
 var MoveQuit = MoveType("QUIT")
 
-type Move struct  {
+type Move struct {
 	player string
-	row int
-	col int
+	row    int
+	col    int
 
 	Type MoveType
 }
@@ -37,13 +40,14 @@ type Move struct  {
 type MoveConfirmation struct {
 	Move string `json:"move"`
 }
+
 func MkConfirmation(id string, moveNum int) *MoveConfirmation {
 	return &MoveConfirmation{
 		Move: fmt.Sprintf("%s/moves/%d", id, moveNum),
 	}
 }
 
-var mkGameId = func () string {
+var mkGameId = func() string {
 	u, _ := uuid.NewV4()
 	return fmt.Sprintf("%v", u)
 }
@@ -76,7 +80,6 @@ type game struct {
 	sequentialWin int
 }
 
-
 func (g *game) GameStatus() *GameStatusResponse {
 	g.RLock()
 	defer g.RUnlock()
@@ -90,14 +93,13 @@ func (g *game) GameStatus() *GameStatusResponse {
 	}
 	gameStatus := &GameStatusResponse{
 		Players: g.currentlyPlaying(),
-		Status: status,
+		Status:  status,
 	}
 	if status == STATUS_DONE {
 		gameStatus.Winner = g.winner
 	}
 	return gameStatus
 }
-
 
 func (g *game) GetMove(index int) (*Move, error) {
 	g.RLock()
@@ -113,7 +115,7 @@ func (g *game) GetMove(index int) (*Move, error) {
 func (g *game) GetMoves(start, until int) []*Move {
 	g.RLock()
 	defer g.RUnlock()
-	if until + 1 > len(g.moves) || until < 0 {
+	if until+1 > len(g.moves) || until < 0 {
 		until = len(g.moves)
 	} else {
 		until = until + 1
@@ -176,7 +178,7 @@ func (g *game) Move(playerId string, col int) (*MoveConfirmation, MoveStatus) {
 	defer g.Unlock()
 
 	// Validate this column
-	if col < 0 || col > len(g.board[0]) - 1 {
+	if col < 0 || col > len(g.board[0])-1 {
 		return nil, MoveBadRequest
 	}
 
@@ -200,7 +202,7 @@ func (g *game) Move(playerId string, col int) (*MoveConfirmation, MoveStatus) {
 	// {
 	// 	"move": "{gameId}/moves/{move_number}"
 	// }
-	confirmation := MkConfirmation(g.id, len(g.moves) - 1)
+	confirmation := MkConfirmation(g.id, len(g.moves)-1)
 	return confirmation, status
 }
 
@@ -259,7 +261,7 @@ func (g *game) Quit(playerId string) GameStatus {
 	}
 	g.moves = append(g.moves, &Move{
 		player: playerId,
-		Type: MoveQuit,
+		Type:   MoveQuit,
 	})
 	return STATUS_LEFT_GAME
 }
@@ -271,11 +273,11 @@ func (g *game) nextMove() string {
 		return players[0]
 	}
 
-	lastMove := g.moves[len(g.moves) - 1]
+	lastMove := g.moves[len(g.moves)-1]
 	var player string
 	for i := 0; i < len(players); i++ {
 		if players[i] == lastMove.player {
-			player = players[(i + 1) % len(players)]
+			player = players[(i+1)%len(players)]
 			break
 		}
 	}

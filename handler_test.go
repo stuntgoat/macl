@@ -2,17 +2,16 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"flag"
-	"strings"
-	"testing"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"strings"
+	"testing"
 
 	"github.com/gorilla/mux"
 )
-
 
 func mockUUID() string {
 	return "cats"
@@ -25,7 +24,6 @@ func expectWithWriter(w *httptest.ResponseRecorder, status int, expected string)
 	if resp.StatusCode != status {
 		return errors.New(fmt.Sprintf("expected %d got %d", status, resp.StatusCode))
 	}
-
 
 	got := strings.TrimSpace(string(body))
 	if got != expected {
@@ -119,9 +117,7 @@ func Test_gameHandler(t *testing.T) {
 		t.Error(err)
 	}
 
-
 }
-
 
 func Test_gameStatusHandler(t *testing.T) {
 	g := CreateGame(4, 4, 4, "a", "b")
@@ -171,7 +167,6 @@ func Test_gameStatusHandler(t *testing.T) {
 		t.Error(err)
 	}
 
-
 	// Check winner response
 	g = CreateGame(4, 4, 4, "a", "b")
 	GAMES.Add(g)
@@ -194,7 +189,6 @@ func Test_gameStatusHandler(t *testing.T) {
 		t.Error(err)
 	}
 }
-
 
 func Test_moveListHandler(t *testing.T) {
 	g := CreateGame(4, 4, 4, "a", "b")
@@ -290,9 +284,7 @@ func Test_moveListHandler(t *testing.T) {
 		t.Error(err)
 	}
 
-
 }
-
 
 func Test_moveHandler(t *testing.T) {
 	g := CreateGame(4, 4, 4, "a", "b")
@@ -344,7 +336,6 @@ func Test_moveHandler(t *testing.T) {
 	}
 }
 
-
 func Test_playHandler(t *testing.T) {
 	g := CreateGame(4, 4, 4, "a", "b")
 	GAMES.Add(g)
@@ -360,7 +351,6 @@ func Test_playHandler(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 
 	playGameBlob = strings.NewReader(`{"column" : 1}`)
 	r = httptest.NewRequest("POST", apiURL("cats/b"), playGameBlob)
@@ -411,7 +401,6 @@ func Test_playHandler(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 
 	// bad input
 	playGameBlob = strings.NewReader(`{"column" : "forty-two"}`)
@@ -470,7 +459,6 @@ func Test_playHandler(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 
 	// quit twice
 	r = httptest.NewRequest("DELETE", apiURL("cats/b"), nil)

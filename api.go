@@ -2,22 +2,22 @@ package main
 
 import (
 	"bytes"
-	"fmt"
-	"net/http"
 	"encoding/json"
-	"strings"
-	"strconv"
+	"fmt"
 	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
+	"strings"
 )
 
 type APIError struct {
-	Msg string
+	Msg    string
 	Status int
 }
+
 func (e *APIError) Error() string {
 	return e.Msg
 }
-
 
 func API_getMove(r *http.Request) ([]byte, *APIError) {
 	vars := mux.Vars(r)
@@ -53,12 +53,12 @@ func API_getMove(r *http.Request) ([]byte, *APIError) {
 
 func mkMoveResponse(move *Move) MoveResponse {
 	mRes := MoveResponse{
-			Type: move.Type,
-			Player: move.player,
-		}
-		if move.Type == MoveMove {
-			mRes.Column = move.col
-		}
+		Type:   move.Type,
+		Player: move.player,
+	}
+	if move.Type == MoveMove {
+		mRes.Column = move.col
+	}
 	return mRes
 }
 
@@ -73,7 +73,6 @@ func moveResponses(moves []*Move) *MovesRangeResponse {
 	}
 	return mrr
 }
-
 
 func API_moveList(r *http.Request) ([]byte, *APIError) {
 	vars := mux.Vars(r)
@@ -100,7 +99,6 @@ func API_moveList(r *http.Request) ([]byte, *APIError) {
 	}
 	return buf.Bytes(), nil
 }
-
 
 func API_makeMove(r *http.Request) ([]byte, *APIError) {
 	vars := mux.Vars(r)
@@ -140,7 +138,6 @@ func API_makeMove(r *http.Request) ([]byte, *APIError) {
 	}
 }
 
-
 func API_quitGame(r *http.Request) int {
 	vars := mux.Vars(r)
 	g, ok := GAMES.Get(vars["gameId"])
@@ -163,8 +160,6 @@ func API_quitGame(r *http.Request) int {
 		return http.StatusNotFound
 	}
 }
-
-
 
 func API_gameStatus(r *http.Request) ([]byte, *APIError) {
 	vars := mux.Vars(r)

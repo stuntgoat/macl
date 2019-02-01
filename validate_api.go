@@ -72,7 +72,6 @@ func validateMoveList(r *http.Request) (*MovesRangeRequest, error) {
 		}
 	}
 	untilStrings, ok := vals["until"]
-	LOGGER.Println(fmt.Sprintf("%s %b", untilStrings, ok))
 	if ok {
 		untilStr := strings.TrimSpace(untilStrings[0])
 		until, err = strconv.Atoi(untilStr)
@@ -82,7 +81,6 @@ func validateMoveList(r *http.Request) (*MovesRangeRequest, error) {
 		}
 	}
 	if start < 0 || start > until {
-		LOGGER.Println(fmt.Sprintf("%+v", vals))
 		return nil, errors.New("bad range request")
 	}
 

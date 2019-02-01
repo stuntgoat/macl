@@ -198,10 +198,6 @@ func (g *game) Move(playerId string, col int) (*MoveConfirmation, MoveStatus) {
 	}
 	status := g.makeMove(playerId, col)
 
-	// Add response
-	// {
-	// 	"move": "{gameId}/moves/{move_number}"
-	// }
 	confirmation := MkConfirmation(g.id, len(g.moves)-1)
 	return confirmation, status
 }
